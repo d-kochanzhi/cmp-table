@@ -99,8 +99,7 @@ th.active .arrow {
 new Vue({
 	el:'#app'	,
 	data: function () {
-        return {   
-			searchQuery:'',		
+        return {  			
             columns: [                       
                         {
                             label: 'Position',
