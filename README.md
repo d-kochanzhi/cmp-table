@@ -1,14 +1,19 @@
 # Vue table(grid) component
 
+- table-mode
+- grid-mode
 - sorting
 - filtering
-- grouping 
-- table mode
-- grid mode
+- grouping
 - data binding
 
+## Dependencies
+
+* Vue.js (>=2.0)
+
+
 ## Live Demo
-- [full exaple](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
+- [full example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
 
 
 ## Usage
