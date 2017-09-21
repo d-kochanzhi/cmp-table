@@ -2,10 +2,13 @@
 
 - table-mode
 - grid-mode
+- slots
 - sorting
 - filtering
 - grouping
 - data binding
+- readonly columns
+- rendering text by values/codes
 
 ## Dependencies
 
@@ -91,6 +94,46 @@ th.active .arrow {
  }
 ```
 
+### Example
+```js
+new Vue({
+	el:'#app'	,
+	data: function () {
+        return {   
+			searchQuery:'',		
+            columns: [                       
+                        {
+                            label: 'Position',
+                            field: 'Position',
+                            type: 'number',						
+                            control: {                             
+                                source: [					
+                                    { text: 'Actor', value: 1 },
+                                    { text: 'Writer', value: 2 },
+                                    { text: 'Character', value: 3 }
+                                ]
+                            }
+                        }					
+
+            ],			
+            rows: [
+                  { Position: 1},
+				  { Position: 2}              
+            ]
+        }
+    }
+});
+```
+```html
+<cmp-table          
+ 	v-bind:columns="columns"
+ 	v-bind:rows="rows">					  
+ </cmp-table>
+```
+we have datasource ROWS with values or codes, but it will be rendered as text:
+[simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
+
+![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_12-17-45.png)
 
 
 ## License
