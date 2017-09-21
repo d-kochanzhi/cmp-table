@@ -32,14 +32,14 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 ### Slots
 
 № | Slot Name | Available Props
--------|------|-------------
-- 1 |table-th-add |   		group, groupindex, rows
-- 2 |table-group-header|	group, groupindex, rows
-- 3 |table-row 	|		row, rowindex
-- 4 |table-td-add	|		row, rowindex, group
-- 5 |table-row-add	|		row, rowindex, group, groupindex
-- 6 |table-group-add	|	group, groupindex, rows
-- 7 |table-footer|
+-------|----------------|------------------------
+1 | table-th-add |group, groupindex, rows
+2 | table-group-header|group, groupindex, rows
+3 | table-row 	|row, rowindex
+4 | table-td-add	|row, rowindex, group
+5 | table-row-add	|row, rowindex, group, groupindex
+6 | table-group-add	|group, groupindex, rows
+7 | table-footer|
  
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_11-00-27.png)
 
