@@ -1,5 +1,5 @@
 # Vue table(grid) component
-========
+##
 
 - sorting
 - filtering
@@ -33,6 +33,29 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 - [7] table-footer
  
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_11-00-27.png)
+
+### Options
+
+
+Option | Type | Description | Default
+-------|------|-------------|--------
+field | String | datasource field name | ''
+label | String | column title | ''
+identity | Boolean | identity column, required in grid-mode | false
+hidden | Boolean | hide column | false
+type | String | [text, decimal, number, date] | 'text'
+readonly | Boolean | readonly column in grid-mode | false
+thclass | String | th css class | ''
+tdclass | String | td css class | ''
+width | String | column width | ''
+sortable | Boolean | allow sort by column | false
+filterable | Boolean | allow filter by column | false
+|
+control | object | column control settings | ''
+control.type | String |[textbox, select, radio, checkbox] | 'textbox'
+control.source | Array |Example [{text:'Title', value:0}] | []
+
+
 
 ### Css
 i did not include any css into the project, but there is minimal style for example
