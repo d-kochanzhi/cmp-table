@@ -1,0 +1,213 @@
+<html>
+	<head>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js" ></script>
+			<script src="cmp-table.js"></script>
+
+			<style>			
+			th.sortable{
+				cursor:pointer;
+			}	
+			
+			th.active .arrow {
+				opacity: 1;
+				position: absolute;
+			}
+
+			.arrow {
+			  display: inline-block;
+			  vertical-align: middle;
+			  width: 0;
+			  height: 0;
+			  margin-left: 10px;
+			  opacity: 0.66;
+			  
+			}
+
+			.arrow.asc {
+			  border-left: 4px solid transparent;
+			  border-right: 4px solid transparent;
+			  border-bottom: 4px solid #080808;
+			}
+
+			.arrow.dsc {
+			  border-left: 4px solid transparent;
+			  border-right: 4px solid transparent;
+			  border-top: 4px solid #080808;
+			}
+			</style>
+		</head>
+		<body>
+			
+			<div class=row>
+			<div id="app" class="col-md-6 col-md-offset-2" >
+			<div class=row>
+					<input type="text" class="form-control" placeholder="Filter by Name or Position" v-model="searchQuery"/>
+			</div>
+			
+				<cmp-table
+                      title="List of scenarios [table mode]"
+					  v-bind:line-numbers="{show:true}"					 
+                      v-bind:grid-mode=false
+                      v-bind:columns="columns"
+                      v-bind:rows="rows"
+					  v-bind:filter-key="searchQuery">
+					  <template slot="table-row-add" scope="props">
+						<tr v-if="props.rowindex == props.rows.length-1 || props.rowindex < props.rows.length-1 && props.rows[props.rowindex+1]['num1']!==props.row['num1']">
+							<!-- Be careful, it is fictive grouping, column must be sorted before -->
+							<td colspan="100"><strong>Position changed</strong></td>
+						</tr>
+					  </template>
+				</cmp-table>				
+				
+				<cmp-table
+                      title="List of scenarios [grid mode]"	
+					  v-bind:line-numbers="{show:true, throughGroups:true}"							  
+                      v-bind:grid-mode=true
+                      v-bind:columns="columns"
+                      v-bind:rows="rows"
+					  v-bind:groups="groups"
+					  v-bind:filter-key="searchQuery">
+					<template slot="table-th-add">
+						<th><span>Additional Column</span></th>
+					</template>
+					<template slot="table-td-add" scope="props">
+						<td>
+							<button type="button" class="btn  btn-danger">
+							  <span class="glyphicon glyphicon-trash"></span>&nbsp;{{props.row.id}}
+							</button>						 
+						</td>
+					</template>
+					<template slot="table-group-add" scope="props">
+						<tr>
+							<td colspan="100">
+							<strong>count: {{props.rows.length}}</strong>
+							</td>
+						</tr>
+					</template>
+					<template slot="table-group-header" scope="props">
+						<tr>
+							<td colspan="100">
+							<strong>{{props.group.title}}</strong>
+							</td>
+						</tr>
+					</template>
+					<template slot="table-footer">
+						<tr>
+							<td colspan="100">
+								<div class="form-inline">
+										<div class="form-group">
+											<label for="inputTitle">Title</label>
+											<input type="text" id="inputTitle" />
+										</div>										
+										<div class="form-group">
+											<button type="button" class="btn  btn-success">
+											  <span class="glyphicon glyphicon-plus"></span>&nbsp;
+											</button>
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</template>
+				</cmp-table>
+				
+			</div>
+		</div>
+
+		<script>
+
+new Vue({
+	el:'#app'	,
+	data: function () {
+        return {   
+			searchQuery:'',		
+            columns: [
+                        {
+                            label: 'ID',
+                            field: 'id',
+                            identity: true,
+                            hidden: true
+                        },
+                        {
+                            label: 'Name',
+                            field: 'str1',
+                            thclass: 'thClass',
+                            tdclass: 'tdClass',
+							width:'150px',
+							filterable:true
+                        },
+                        {
+                            label: 'Position (sortable)',
+                            field: 'num1',
+                            type: 'number',
+							sortable:true,
+							filterable:true,
+                            control: {
+                                type: 'select',
+                                source: [					
+                                    { text: 'Actor', value: 1 },
+                                    { text: 'Writer', value: 2 },
+                                    { text: 'Character', value: 3 }
+                                ]
+                            }
+                        },
+						{
+                            label: 'Decimal (sortable)',
+                            field: 'dec1',   
+							type:'decimal',
+							sortable:true,
+                        },
+						{
+                            label: 'ReadOnly',
+                            field: 'str2', 
+							readonly:true
+                        },
+						{
+                            label: 'Radio',
+                            field: 'radio1',
+                            type: 'number',
+                            control: {
+                                type: 'radio',
+                                source: [
+									{ text: 'yes', value: 1 },
+                                    { text: 'no', value: 0 }                                     
+                                ]
+                            }
+                        },
+                        {
+                            label: 'Checkbox',
+                            field: 'chk1',                           
+                            control: {
+                                type: 'checkbox',
+                                source: [
+									{ text: 'option 1', value: 1 },
+                                    { text: 'option 2', value: 2 },                                                                                                  
+                                ]
+                            }
+                        },
+
+            ],
+			groups:[
+				{field:'num1', value:1, title:'Group [Actors]'},
+				{field:'num1', value:2, title:'Group [Writers]'},
+				{field:'num1', value:undefined, title:'Group [all others]'}
+				/*Be careful, value:undefined means show all other items in datasource that not included in groups */
+			],
+            rows: [
+                  { id: 1, str1: "John Snow", num1: 1, dec1:2.5,str2:'qwer', radio1:0, chk1:[1,2] },
+				  { id: 2, str1: "John Smith", num1: 2, dec1:0,str2:null, radio1:null, chk1:null },
+                  { id: 3, str1: "Martin D.", num1: 2, dec1:7, str2:'asdf', radio1:null, chk1:2},
+				  { id: 4, str1: "Leonardo D.", num1: 3, dec1:2.5,str2:'zxcv', radio1:0 , chk1:null},
+                  { id: 5, str1: "Guest", num1: null, dec1:null, str2:null, radio1:null, chk1:null},
+            ]
+        }
+    },
+});
+		</script>
+
+	</body>	
+</html>
