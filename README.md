@@ -9,7 +9,7 @@
 - data binding
 
 ## Live Demo
-- [full exaple](https://cdn.rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
+- [full exaple](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
 
 
 ## Usage

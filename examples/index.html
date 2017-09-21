@@ -53,7 +53,7 @@
 					  <template slot="table-row-add" scope="props">
 						<tr v-if="props.rowindex == props.rows.length-1 || props.rowindex < props.rows.length-1 && props.rows[props.rowindex+1]['num1']!==props.row['num1']">
 							<!-- Be careful, it is fictive grouping, column must be sorted before -->
-							<td colspan="100"><strong>Position changed</strong></td>
+							<td colspan="100">position changed</td>
 						</tr>
 					  </template>
 				</cmp-table>				
@@ -79,7 +79,7 @@
 					<template slot="table-group-add" scope="props">
 						<tr>
 							<td colspan="100">
-							<strong>count: {{props.rows.length}}</strong>
+							count: {{props.rows.length}}
 							</td>
 						</tr>
 					</template>
