@@ -1,5 +1,4 @@
 # Vue table(grid) component
-##
 
 - sorting
 - filtering
