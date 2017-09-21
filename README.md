@@ -50,7 +50,6 @@ tdclass | String | td css class | ''
 width | String | column width | ''
 sortable | Boolean | allow sort by column | false
 filterable | Boolean | allow filter by column | false
-|
 control | object | column control settings | ''
 control.type | String |[textbox, select, radio, checkbox] | 'textbox'
 control.source | Array |Example [{text:'Title', value:0}] | []
