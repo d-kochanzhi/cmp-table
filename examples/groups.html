@@ -1,0 +1,92 @@
+<html>
+	<head>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js" ></script>
+			<script src="../src/cmp-table.js"></script>
+		</head>
+		<body>
+			
+			<div class=row>
+			<div id="app" class="col-md-6 col-md-offset-2" >
+			
+			<div class=row>
+			Line numbers:
+				<div class="radio">
+				  <label>
+					<input type="radio" name="optionsRadios"  v-model="lineNumber.throughGroups" v-bind:value="true">
+					through groups
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+					<input type="radio" name="optionsRadios"  v-model="lineNumber.throughGroups" v-bind:value="false">
+					reset on each group
+				  </label>
+				</div>			
+			</div>
+			<br />
+				<cmp-table   
+					title="Groups"
+					v-bind:line-numbers="lineNumber"
+                    v-bind:columns="columns"
+                    v-bind:rows="rows"
+					v-bind:groups="groups">	
+					<template slot="table-group-header" scope="props">
+						<tr>
+							<td colspan="100">
+							Group: {{props.group.title}} total {{props.rows.length}}
+							</td>
+						</tr>
+					</template>					
+				</cmp-table>				
+			</div>
+		</div>
+
+		<script>
+
+new Vue({
+	el:'#app'	,
+	data: function () {
+        return {   	
+			lineNumber: {show:true, throughGroups: true},
+            columns: [     
+						{
+						  label: 'Object',
+                          field: 'Object',    
+						},
+                        {
+                            label: 'Color',
+                            field: 'Color',                           		
+                            control: {                             
+                                source: [					
+                                    { text: 'Green', value: 1 },
+                                    { text: 'White', value: 2 },
+                                    { text: 'Red', value: 3 },
+									{ text: 'Orange', value: 4 },								
+                                ]
+                            }
+                        }					
+
+            ],	
+			groups:[
+				{field:'Color', value:1, title:'Group [Greens]'},
+				{field:'Color', value:3, title:'Group [Reds]'},				
+				{field:'Color', value:undefined, title:'Group [other colors]'}				
+			],			
+            rows: [
+                { Object:'Apple', Color: 1},
+				{ Object:'Milk', Color: 2},
+				{ Object:'Grass', Color: 1},
+				{ Object:'Wine', Color: 3},
+				{ Object:'Orange', Color: 4}				
+            ]
+        }
+    }
+});
+		</script>
+
+	</body>	
+</html>

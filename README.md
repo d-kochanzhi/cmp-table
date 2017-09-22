@@ -144,10 +144,12 @@ new Vue({
  </cmp-table>
 ```
 we have datasource ROWS with values or codes, but it will be rendered as text:
-[simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
 
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_12-17-45.png)
 
+[simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
+
+[grouping example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/groups.html)
 
 ## License
 
