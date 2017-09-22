@@ -46,6 +46,20 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 ### Options
 
 
+#### table
+
+Option | Type | Description | Default
+------------|-----------|-------------|------------
+title|String|h2 header|''
+style-class|String|table css class|'table table-bordered'
+grid-mode|Boolean|editable grid / table |false
+line-numbers|Object|show first column with row numbers|```{show: false,	throughGroups: false}```
+columns|Array||[]
+rows|Array||[]
+filter-key|String|input filter string|''
+
+#### Column
+
 Option | Type | Description | Default
 -------|------|-------------|--------
 field | String | datasource field name | ''
@@ -56,13 +70,12 @@ type | String | [text, decimal, number, date] | 'text'
 readonly | Boolean | readonly column in grid-mode | false
 thclass | String | th css class | ''
 tdclass | String | td css class | ''
-width | String | column width | ''
+width | String | column width | 'auto'
 sortable | Boolean | allow sort by column | false
 filterable | Boolean | allow filter by column | false
 control | object | column control settings | ''
 control.type | String |[textbox, select, radio, checkbox] | 'textbox'
 control.source | Array |Example [{text:'Title', value:0}] | []
-
 
 
 ### Css
@@ -105,8 +118,7 @@ new Vue({
             columns: [                       
                         {
                             label: 'Position',
-                            field: 'Position',
-                            type: 'number',						
+                            field: 'Position',                         				
                             control: {                             
                                 source: [					
                                     { text: 'Actor', value: 1 },

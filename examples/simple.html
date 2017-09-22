@@ -10,13 +10,12 @@
 		<body>
 			
 			<div class=row>
-			<div id="app" class="col-md-6 col-md-offset-2" >		
-			
-				<cmp-table                    
-                      v-bind:columns="columns"
-                      v-bind:rows="rows">					  
-				</cmp-table>
-				
+			<div id="app" class="col-md-6 col-md-offset-2" >
+				<cmp-table   
+					title="Simple"
+                    v-bind:columns="columns"
+                    v-bind:rows="rows">					  
+				</cmp-table>				
 			</div>
 		</div>
 
@@ -25,13 +24,11 @@
 new Vue({
 	el:'#app'	,
 	data: function () {
-        return {   
-			searchQuery:'',		
+        return {   			 
             columns: [                       
                         {
                             label: 'Position',
-                            field: 'Position',
-                            type: 'number',						
+                            field: 'Position',                           		
                             control: {                             
                                 source: [					
                                     { text: 'Actor', value: 1 },
