@@ -35,7 +35,7 @@
                     v-bind:rows="rows"
 					v-bind:groups="groups">	
 					<template slot="table-group-header" scope="props">
-						<tr>
+						<tr style="background-color:#eee">
 							<td colspan="100">
 							Group: {{props.group.title}} total {{props.rows.length}}
 							</td>
