@@ -37,9 +37,10 @@
 		</head>
 		<body>
 			
-			<div class=row>
+			<div class=container>
 			<div id="app" class="col-md-6 col-md-offset-2" >
 			<div class=row>
+			<br />
 					<input type="text" class="form-control" placeholder="Filter by Name or Position" v-model="searchQuery"/>
 			</div>
 			
@@ -53,7 +54,7 @@
 					  <template slot="table-row-add" scope="props">
 						<tr v-if="props.rowindex == props.rows.length-1 || props.rowindex < props.rows.length-1 && props.rows[props.rowindex+1]['num1']!==props.row['num1']">
 							<!-- Be careful, it is fictive grouping, column must be sorted before -->
-							<td colspan="100">position changed</td>
+							<td colspan="100"><i>position changed here</i></td>
 						</tr>
 					  </template>
 				</cmp-table>				
