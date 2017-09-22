@@ -16,11 +16,11 @@
 
 
 ## Live Demo
--[full example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
+- [full example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
 
--[simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
+- [simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
 
--[grouping example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/groups.html)
+- [grouping example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/groups.html)
 
 
 ## Usage
