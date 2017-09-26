@@ -22,6 +22,8 @@
 
 - [grouping example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/groups.html)
 
+- [columns override example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/columns-override.html)
+
 
 ## Usage
 
@@ -44,7 +46,7 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 5 | table-row-add	|row, rowindex, group, groupindex
 6 | table-group-add	|group, groupindex, rows
 7 | table-footer|
- 
+8 |	column-YOURCOLUMNNAME |control, colKey, rowKey, value, valueFormatted, isEditableColumn 
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_11-00-27.png)
 
 ### Options

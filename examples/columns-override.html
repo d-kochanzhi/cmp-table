@@ -1,0 +1,92 @@
+<html>
+	<head>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js" ></script>
+			<script src="../src/cmp-table.js"></script>
+		</head>
+		<body>
+			
+			<div class=row>
+			<div id="app" class="col-md-6 col-md-offset-2" >
+				<cmp-table   
+					title="Override column in table-mode"					 
+                    v-bind:columns="columns"
+                    v-bind:rows="rows">	
+					<template slot="column-Name" scope="prop">
+						<i>custom view</i><br />
+						<span>{{prop.value | uppercase}}</span>
+					</template>
+				</cmp-table>
+				<cmp-table   
+					title="Override column in grid-mode"
+					v-bind:grid-mode=true
+                    v-bind:columns="columns"
+                    v-bind:rows="rows">	
+				<template slot="column-Name" scope="prop">
+					<i>colKey:{{prop.colKey}} rowKey:{{prop.rowKey}}</i>
+					<p>custom render</p><br />
+					<input type="textbox" v-bind:value="prop.value" v-on:input="updateValue([prop.colKey, prop.rowKey, $event.target.value])" />
+				</template>
+				</cmp-table>				
+			</div>
+		</div>
+
+		<script>
+
+new Vue({
+	el:'#app'	,
+	data: function () {
+        return {   			 
+            columns: [   
+						{
+							label:'Id',
+							field: 'Id',
+							identity:true,
+							readonly:true
+						},
+						{
+							label:'Name',
+							field: 'Name',
+						},
+                        {
+                            label: 'Position',
+                            field: 'Position',  
+							readonly:true,							
+                            control: {                             
+                                source: [					
+                                    { text: 'Actor', value: 1 },
+                                    { text: 'Writer', value: 2 },
+                                    { text: 'Character', value: 3 }
+                                ]
+                            }
+                        }					
+
+            ],			
+            rows: [
+                  {Id:1, Name:'test 1', Position: 1},
+				  {Id:2, Name:'test 2', Position: 2}              
+            ]
+        }
+    },
+	methods: {
+        updateValue: function (arg) {
+			for (var i = 0; i < this.$children.length; i++) {
+                if (this.$children[i].$options.name == 'cmp-table') {
+                    this.$children[i].onCellUpdated(arg);
+                }
+            }             
+        },
+	},
+	filters:{
+		uppercase: function (value) {
+			return value.toUpperCase();
+		}	
+	}
+});
+		</script>
+
+	</body>	
+</html>

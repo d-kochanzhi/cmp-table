@@ -285,33 +285,42 @@ Vue.component('cmp-table', {
 							 <th v-if="lineNumbers.show" class="line-numbers">{{ getLineNumber(gindex,rindex) }}</th>\
 							 <slot name="table-row" v-bind:row="row" v-bind:rowindex="rindex">\
 							 <td v-for="(column, cindex) in processedColumns" v-bind:class="getCssStyle(column, \'td\')" v-if="!column.hidden">\
-								<span v-if="!isEditableColumn(column)" v-html="getPropertyFormattedValue(row, column)"></span>\
+								<slot v-bind:name="\'column-\' + String(column.field)"\
+										v-bind:control="column.control"\
+										v-bind:colKey="String(column.field)"\
+										v-bind:rowKey="getPropertyValue(row, getIdentityColumn().field)"\
+										v-bind:value="getPropertyValue(row, column.field)"\
+										v-bind:valueFormatted="getPropertyFormattedValue(row, column.field)"\
+										v-bind:isEditableColumn="isEditableColumn(column)"\
+										>\
+									<template v-if="!isEditableColumn(column)">{{getPropertyFormattedValue(row, column)}}</template>\
 									<template v-if="isEditableColumn(column)">\
-										<cmp-table-textbox v-if="column.control.type==\'textbox\'" \
-											v-bind:control="column.control" \
-											v-bind:colKey="String(column.field)" \
-											v-bind:rowKey="getPropertyValue(row, getIdentityColumn().field)"\
-											v-bind:value="getPropertyValue(row, column.field)"\
-											v-on:valueUpdated="onCellUpdated"></cmp-table-textbox>\
-										<cmp-table-select v-if="column.control.type==\'select\'" \
-											v-bind:control="column.control" \
-											v-bind:colKey="String(column.field)" \
-											v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
-											v-bind:value="getPropertyValue(row, column.field)"\
-											v-on:valueUpdated="onCellUpdated"></cmp-table-select>\
-										<cmp-table-radio v-if="column.control.type==\'radio\'" \
-											v-bind:control="column.control" \
-											v-bind:colKey="String(column.field)" \
-											v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
-											v-bind:value="getPropertyValue(row, column.field)"\
-											v-on:valueUpdated="onCellUpdated"></cmp-table-radio>\
-                                        <cmp-table-checkbox v-if="column.control.type==\'checkbox\'" \
-                                            v-bind:control="column.control" \
-                                            v-bind:colKey="String(column.field)" \
-                                            v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
-                                            v-bind:value="getPropertyValue(row, column.field)"\
-                                            v-on:valueUpdated="onCellUpdated"></cmp-table-checkbox>\
+											<cmp-table-textbox v-if="column.control.type==\'textbox\'" \
+												v-bind:control="column.control" \
+												v-bind:colKey="String(column.field)" \
+												v-bind:rowKey="getPropertyValue(row, getIdentityColumn().field)"\
+												v-bind:value="getPropertyValue(row, column.field)"\
+												v-on:valueUpdated="onCellUpdated"></cmp-table-textbox>\
+											<cmp-table-select v-if="column.control.type==\'select\'" \
+												v-bind:control="column.control" \
+												v-bind:colKey="String(column.field)" \
+												v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
+												v-bind:value="getPropertyValue(row, column.field)"\
+												v-on:valueUpdated="onCellUpdated"></cmp-table-select>\
+											<cmp-table-radio v-if="column.control.type==\'radio\'" \
+												v-bind:control="column.control" \
+												v-bind:colKey="String(column.field)" \
+												v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
+												v-bind:value="getPropertyValue(row, column.field)"\
+												v-on:valueUpdated="onCellUpdated"></cmp-table-radio>\
+											<cmp-table-checkbox v-if="column.control.type==\'checkbox\'" \
+												v-bind:control="column.control" \
+												v-bind:colKey="String(column.field)" \
+												v-bind:rowKey="getPropertyValue(row,  getIdentityColumn().field)"\
+												v-bind:value="getPropertyValue(row, column.field)"\
+												v-on:valueUpdated="onCellUpdated"></cmp-table-checkbox>\
 									</template>\
+								</slot>\
 							  </td>\
 							</slot>\
 							<slot name="table-td-add" v-bind:row="row" v-bind:rowindex="rindex" v-bind:group="group"></slot>\
@@ -440,7 +449,7 @@ Vue.component('cmp-table', {
 
             var value = this.getPropertyValue(row, column.field);
 
-            if (column.control.source.length > 0) {
+            if (column.control && column.control.source.length > 0) {
                 var foundItem = column.control.source.filter(function (item) {
                     if (value && (typeof (value) === 'array' || typeof (value) === 'object'))
                         return value.indexOf(item.value) > -1;
