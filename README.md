@@ -50,6 +50,12 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_11-00-27.png)
 
+#### Slots priority
+
+first [table-row] second [column-YOURCOLUMNNAME]
+
+it means if you are overriding row your custom column control will not shown
+
 ### Options
 
 
