@@ -38,7 +38,7 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 ### Slots
 
 № | Slot Name | Available Props
--------|----------------|------------------------
+-------|-----------------------|--------------------------------------------------------------------------
 1 | table-th-add |group, groupindex, rows
 2 | table-group-header|group, groupindex, rows
 3 | table-row 	|row, rowindex
@@ -47,6 +47,7 @@ Just import the `cmp-table.js` after `vue.js` library in your page like so.
 6 | table-group-add	|group, groupindex, rows
 7 | table-footer|
 8 |	column-YOURCOLUMNNAME |control, colKey, rowKey, value, valueFormatted, isEditableColumn 
+
 ![image](https://github.com/d-kochanzhi/cmp-table/raw/master/examples/2017-09-21_11-00-27.png)
 
 ### Options
