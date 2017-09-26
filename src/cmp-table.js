@@ -286,7 +286,8 @@ Vue.component('cmp-table', {
 							 <slot name="table-row" v-bind:row="row" v-bind:rowindex="rindex">\
 							 <td v-for="(column, cindex) in processedColumns" v-bind:class="getCssStyle(column, \'td\')" v-if="!column.hidden">\
 								<slot v-bind:name="\'column-\' + String(column.field)"\
-										v-bind:control="column.control"\
+										v-bind:column="column"\
+										v-bind:row="row"\
 										v-bind:colKey="String(column.field)"\
 										v-bind:rowKey="getPropertyValue(row, getIdentityColumn().field)"\
 										v-bind:value="getPropertyValue(row, column.field)"\
