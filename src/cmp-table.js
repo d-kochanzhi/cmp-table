@@ -289,7 +289,7 @@ Vue.component('cmp-table', {
 										v-bind:column="column"\
 										v-bind:row="row"\
 										v-bind:colKey="String(column.field)"\
-										v-bind:rowKey="getPropertyValue(row, getIdentityColumn().field)"\
+										v-bind:rowKey="getIdentityColumn() ? getPropertyValue(row, getIdentityColumn().field): null"\
 										v-bind:value="getPropertyValue(row, column.field)"\
 										v-bind:valueFormatted="getPropertyFormattedValue(row, column.field)"\
 										v-bind:isEditableColumn="isEditableColumn(column)"\
