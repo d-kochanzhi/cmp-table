@@ -16,7 +16,7 @@
                     v-bind:columns="columns"
                     v-bind:rows="rows">	
 					<template slot="column-Name" scope="prop">
-						<i>custom view</i><br />
+						<i>custom view control</i><br />
 						<span>{{prop.value | uppercase}}</span>
 					</template>
 				</cmp-table>
@@ -25,9 +25,8 @@
 					v-bind:grid-mode=true
                     v-bind:columns="columns"
                     v-bind:rows="rows">	
-				<template slot="column-Name" scope="prop">
-					<i>colKey:{{prop.colKey}} rowKey:{{prop.rowKey}}</i>
-					<p>custom render</p><br />
+				<template slot="column-Name" scope="prop">					
+					<i>custom edit control</i><br />
 					<input type="textbox" v-bind:value="prop.value" v-on:input="updateValue([prop.colKey, prop.rowKey, $event.target.value])" />
 				</template>
 				</cmp-table>				

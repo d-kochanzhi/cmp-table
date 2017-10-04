@@ -434,9 +434,7 @@ Vue.component('cmp-table', {
                 return undefined;
         },
         getPropertyFormattedValue: function (row, column) {
-            /*if column has data source {text:'qwer', value:1}
-                formated value will be text
-            */
+            /*if column has data source {text:'qwer', value:1} formated value will be text */
             function toString(arr) {
                 var result = '';
                 if (arr.length > 1)
