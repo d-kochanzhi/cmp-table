@@ -1,0 +1,101 @@
+<html>
+	<head>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js" ></script>
+			<script src="../src/cmp-table.js"></script>
+			
+			  <style type="text/css">
+				pre {padding: 5px; margin: 5px; }
+			.string { color: green; }
+			.number { color: darkorange; }
+			.boolean { color: blue; }
+			.null { color: magenta; }
+			.key { color: red; }
+			  </style>
+		</head>
+		<body>
+			
+			<div class=row>
+			<div id="app" class="col-md-6 col-md-offset-2" >
+				<cmp-table   
+					title="Child Tables"
+                    v-bind:columns="columns"
+                    v-bind:rows="rows">	
+					<template slot="column-Actors" scope="prop">						 
+						<cmp-table
+							v-bind:columns="childColumns"
+							v-bind:rows="prop.value">	
+						</cmp-table>
+					</template>					
+				</cmp-table>
+				<pre  v-html="syntaxHighlight(rows)"></pre>				
+			</div>
+		</div>
+
+		<script>
+
+new Vue({
+	el:'#app'	,
+	data: function () {
+        return {   			 
+            columns: [                       
+                        {
+                            label: 'Position',
+                            field: 'Position',                           		
+                            control: {                             
+                                source: [					
+                                    { text: 'Actor', value: 1 },
+                                    { text: 'Writer', value: 2 },
+                                    { text: 'Character', value: 3 }
+                                ]
+                            }
+                        },						
+						{ 
+							label: 'Child Table', 
+							field: 'Actors',         
+						}	
+            ],	
+			childColumns:[
+				{ 
+					label: 'Members', 
+					field: 'Name',         
+				}
+			],
+            rows: [
+                  { Position: 1, Actors:[{Name:'Alex'},{Name:'Bob'},{Name:'Stiven'}]},
+				  { Position: 2, Actors:[{Name:'Jhon'}]}              
+            ]
+        }
+    },
+	methods: {
+		syntaxHighlight: function(json) {			
+			if (typeof json != 'string') {
+				json = JSON.stringify(json, undefined, 4);
+			}	
+			json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+				var cls = 'number';
+				if (/^"/.test(match)) {
+					if (/:$/.test(match)) {
+						cls = 'key';
+					} else {
+						cls = 'string';
+					}
+				} else if (/true|false/.test(match)) {
+					cls = 'boolean';
+				} else if (/null/.test(match)) {
+					cls = 'null';
+				}
+				return '<span class="' + cls + '">' + match + '</span>';
+			});
+		
+		}
+	}
+});
+		</script>
+
+	</body>	
+</html>

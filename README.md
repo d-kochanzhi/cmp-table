@@ -24,6 +24,7 @@
 
 - [columns override example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/columns-override.html)
 
+- [child tables example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/child-table.html)
 
 ## Usage
 
