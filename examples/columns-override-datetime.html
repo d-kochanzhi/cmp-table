@@ -1,0 +1,99 @@
+<html>
+
+<head>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+    <script src="http://www.showonne.com/vue-date/dist/browser/vue-datepicker.js"></script>
+
+    <script src="../src/cmp-table.js"></script>
+
+    <style>
+        .picker {
+            width: 200px;
+        }
+        
+        b {
+            font-weight: 800;
+            font-size: 16px;
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class=row>
+        <div id="app" class="col-md-6 col-md-offset-2">
+            <p>uses ue-datepicker.js</p>
+            <cmp-table title="Source" v-bind:columns="columns" v-bind:rows="rows">
+            </cmp-table>
+            <cmp-table title="DateTime column in grid-mode (using custom vue date component)" v-bind:grid-mode=true v-bind:columns="columns" v-bind:rows="rows">
+                <template slot="column-DateColumn" scope="prop">
+                                    <datepicker v-model="prop.value.d" class="picker"></datepicker>
+                            </template>
+                <template slot="column-DateColumn2" scope="prop">
+                                    <datepicker v-model="prop.value" class="picker" v-on:input="updateValue([prop.colKey, prop.rowKey, $event])"></datepicker>
+                            </template>
+            </cmp-table>
+            <p>
+                Here we are using two different methods to update value in source. Please see this code.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                datepicker
+            },
+            data: function() {
+                return {
+                    columns: [{
+                            label: 'Id',
+                            field: 'Id',
+                            identity: true,
+                            readonly: true
+                        }, {
+                            label: 'DateColumnAsObject',
+                            field: 'DateColumn',
+                        }, {
+                            label: 'DateColumnAsText',
+                            field: 'DateColumn2',
+                        },
+
+                    ],
+                    rows: [{
+                        Id: 1,
+                        DateColumn: {
+                            d: '2016-08-03'
+                        },
+                        DateColumn2: '2017-08-03'
+                    }, {
+                        Id: 2,
+                        DateColumn: {
+                            d: '2017-01-01'
+                        },
+                        DateColumn2: '2018-08-03'
+                    }]
+                }
+            },
+            methods: {
+                updateValue(arg) {
+                    for (var i = 0; i < this.$children.length; i++) {
+                        if (this.$children[i].$options.name == 'cmp-table') {
+                            this.$children[i].onCellUpdated(arg);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

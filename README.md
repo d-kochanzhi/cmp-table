@@ -16,13 +16,16 @@
 
 
 ## Live Demo
-- [full example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
 
 - [simple example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/simple.html)
+
+- [full example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/index.html)
 
 - [grouping example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/groups.html)
 
 - [columns override example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/columns-override.html)
+
+- [using custom vue date component](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/columns-override-datetime.html)
 
 - [child tables example](https://rawgit.com/d-kochanzhi/cmp-table/master/examples/child-table.html)
 
