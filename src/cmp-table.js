@@ -1,3 +1,7 @@
+"use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) { return typeof obj; } : function(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 Vue.component('cmp-table-textbox', {
     template: '<input  ref="input" \
         v-bind:value="value" \
@@ -8,7 +12,7 @@ Vue.component('cmp-table-textbox', {
     props: {
         value: {
             type: [String, Number],
-            default: '',
+            default: ''
         },
         colKey: {
             type: String,
@@ -21,46 +25,41 @@ Vue.component('cmp-table-textbox', {
         control: {
             type: Object,
             default: {}
-        },
-    },
-    data: function () {
-        return {
-            dataValue: this.value            
         }
+    },
+    data: function data() {
+        return {
+            dataValue: this.value
+        };
     },
 
     methods: {
-        updateValue: function (value) {
+        updateValue: function updateValue(value) {
             this.dataValue = value;
             this.$emit('valueUpdated', [this.colKey, this.rowKey, this.dataValue]);
         },
-		isValidValue: function(evt){
-			 switch (this.control.datatype) {
-				case 'decimal':
-					this.$refs.input.value = this.$refs.input.value.replace(/[^0-9\.]/g,'');	
-				break;
-				case 'number':
-				  this.$refs.input.value = this.$refs.input.value.replace(/[^\d].+/, '');	
-				break;
-			 };			 		
-		},
-        isValidChar: function (evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;           
-		
+        isValidValue: function isValidValue(evt) {
             switch (this.control.datatype) {
                 case 'decimal':
-					if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) &&
-						(charCode != 46 || this.$refs.input.value.indexOf('.') != -1) &&
-						(charCode < 48 || charCode > 57))
-                    {
+                    this.$refs.input.value = this.$refs.input.value.replace(/[^0-9\.]/g, '');
+                    break;
+                case 'number':
+                    this.$refs.input.value = this.$refs.input.value.replace(/[^\d].+/, '');
+                    break;
+            };
+        },
+        isValidChar: function isValidChar(evt) {
+            evt = evt ? evt : window.event;
+            var charCode = evt.which ? evt.which : evt.keyCode;
+
+            switch (this.control.datatype) {
+                case 'decimal':
+                    if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) && (charCode != 46 || this.$refs.input.value.indexOf('.') != -1) && (charCode < 48 || charCode > 57)) {
                         evt.preventDefault();
                     }
                     break;
                 case 'number':
-					if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) &&					
-						(charCode < 48 || charCode > 57))
-                    {
+                    if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) && (charCode < 48 || charCode > 57)) {
                         evt.preventDefault();
                     }
                     break;
@@ -68,9 +67,8 @@ Vue.component('cmp-table-textbox', {
                     /*text, allow all*/
                     return true;
             }
-
         }
-    },
+    }
 });
 
 Vue.component('cmp-table-select', {
@@ -98,22 +96,22 @@ Vue.component('cmp-table-select', {
             default: {}
         }
     },
-    data: function () {
+    data: function data() {
         return {
             dataValue: this.value
-        }
+        };
     },
     watch: {
-        "value": function (newValue) {
+        "value": function(newValue) {
             this.dataValue = newValue;
         }
     },
     methods: {
-        updateValue: function (value) {
+        updateValue: function(value) {
             this.dataValue = value;
             this.$emit('valueUpdated', [this.colKey, this.rowKey, this.dataValue]);
-        },
-    },
+        }
+    }
 
 });
 
@@ -146,22 +144,22 @@ Vue.component('cmp-table-radio', {
             default: {}
         }
     },
-    data: function () {
+    data: function data() {
         return {
             dataValue: this.value
-        }
+        };
     },
     watch: {
-        "value": function (newValue) {
+        "value": function value(newValue) {
             this.dataValue = newValue;
         }
     },
     methods: {
-        updateValue: function (value) {
+        updateValue: function updateValue(value) {
             this.dataValue = value;
             this.$emit('valueUpdated', [this.colKey, this.rowKey, this.dataValue]);
-        },
-    },
+        }
+    }
 
 });
 
@@ -194,32 +192,28 @@ Vue.component('cmp-table-checkbox', {
             default: {}
         }
     },
-    data: function () {
+    data: function data() {
         return {
             dataValue: this.getFormatedValue()
-        }
+        };
     },
     watch: {
-        "value": function (newValue) {
+        "value": function value(newValue) {
             this.dataValue = this.getFormatedValue();
         }
     },
     methods: {
-        updateValue: function (value) {
+        updateValue: function updateValue(value) {
             this.$emit('valueUpdated', [this.colKey, this.rowKey, this.dataValue]);
         },
-        getFormatedValue: function () {
-            if (typeof (this.value) === 'string')
-                return [this.value];
-            if (typeof (this.value) === 'number')
-                return [this.value];
-            if (typeof (this.value) === 'array')
-                return this.value;
-            if (!this.value)
-                return [];
+        getFormatedValue: function getFormatedValue() {
+            if (typeof this.value === 'string') return [this.value];
+            if (typeof this.value === 'number') return [this.value];
+            if (typeof this.value === 'array') return this.value;
+            if (!this.value) return [];
             return this.value;
         }
-    },
+    }
 
 });
 
@@ -229,11 +223,11 @@ Vue.component('cmp-table', {
             default: 'table table-bordered'
         },
         lineNumbers: {
-            default: function () {
+            default: function _default() {
                 return {
                     show: false,
                     throughGroups: false
-                }
+                };
             }
         },
         title: '',
@@ -241,7 +235,7 @@ Vue.component('cmp-table', {
         rows: {},
         groups: {
             type: Array,
-            default: function () {
+            default: function _default() {
                 return [{
                     field: null,
                     value: null,
@@ -339,34 +333,31 @@ Vue.component('cmp-table', {
                 </table>\
             </div>\
     ',
-    data: function () {
+    data: function data() {
         return {
             sortKey: '',
-            sortOrder: 1,
-        }
+            sortOrder: 1
+        };
     },
-    mounted: function () {
-        if (this.gridMode && !this.getIdentityColumn())
-            this.warn('You must declare an identity column in grid-mode');
+    mounted: function mounted() {
+        if (this.gridMode && !this.getIdentityColumn()) this.warn('You must declare an identity column in grid-mode');
     },
     methods: {
-        warn: function (msg) {
-            if (typeof console !== 'undefined')
-                console.warn(msg);
+        warn: function warn(msg) {
+            if (typeof console !== 'undefined') console.warn(msg);
         },
-        isEditableColumn: function (column) {
-            return (this.gridMode && !column.readonly);
+        isEditableColumn: function isEditableColumn(column) {
+            return this.gridMode && !column.readonly;
         },
-        getLineNumber: function (gindex, rindex) {
+        getLineNumber: function getLineNumber(gindex, rindex) {
             var count = 0;
-            if (gindex == 0 | !this.lineNumbers.throughGroups)
-                return rindex + 1;
-            for (let i = 0; i < gindex; i++) {
+            if (gindex == 0 | !this.lineNumbers.throughGroups) return rindex + 1;
+            for (var i = 0; i < gindex; i++) {
                 count += this.getGroupedRows(this.processedGroups[i]).length;
             }
             return count + rindex + 1;
         },
-        getCssStyle: function (column, type) {
+        getCssStyle: function getCssStyle(column, type) {
             var classString = '';
             if (typeof type !== 'undefined' && column.hasOwnProperty(type + 'class')) {
                 classString = column[type + 'class'];
@@ -384,7 +375,7 @@ Vue.component('cmp-table', {
             }
             return classString;
         },
-        getDataFormattedValue(value, column) {
+        getDataFormattedValue: function getDataFormattedValue(value, column) {
 
             function formatDecimal(v) {
                 // convert to decimal
@@ -415,89 +406,76 @@ Vue.component('cmp-table', {
                     return value;
             }
         },
-        getPropertyValue: function (row, field) {
+        getPropertyValue: function getPropertyValue(row, field) {
             function dig(obj, selector) {
                 var result = obj;
-                const splitter = selector.split('.');
-                for (let i = 0; i < splitter.length; i++)
-                    if (typeof (result) === 'undefined')
-                        return undefined;
-                    else
-                        result = result[splitter[i]];
+                var splitter = selector.split('.');
+                for (var i = 0; i < splitter.length; i++) {
+                    if (typeof result === 'undefined') return undefined;
+                    else result = result[splitter[i]];
+                }
                 return result;
             }
-            if (typeof (field) === 'function')
-                return field(row);
-            else if (typeof (field) === 'string')
-                return dig(row, field);
-            else
-                return undefined;
+            if (typeof field === 'function') return field(row);
+            else if (typeof field === 'string') return dig(row, field);
+            else return undefined;
         },
-        getPropertyFormattedValue: function (row, column) {
+        getPropertyFormattedValue: function getPropertyFormattedValue(row, column) {
             /*if column has data source {text:'qwer', value:1} formated value will be text */
             function toString(arr) {
                 var result = '';
-                if (arr.length > 1)
-                    arr.forEach(function (item) {
-                        result += item.text + '; ';
-                    });
-                else if (arr[0])
-                    result = arr[0].text;
+                if (arr.length > 1) arr.forEach(function(item) {
+                    result += item.text + '; ';
+                });
+                else if (arr[0]) result = arr[0].text;
                 return result;
             };
 
             var value = this.getPropertyValue(row, column.field);
 
             if (column.control && column.control.source.length > 0) {
-                var foundItem = column.control.source.filter(function (item) {
-                    if (value && (typeof (value) === 'array' || typeof (value) === 'object'))
-                        return value.indexOf(item.value) > -1;
-                    else
-                        return item.value == value;
+                var foundItem = column.control.source.filter(function(item) {
+                    if (value && (typeof value === 'array' || (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object')) return value.indexOf(item.value) > -1;
+                    else return item.value == value;
                 });
-                if (foundItem)
-                    return toString(foundItem);
+                if (foundItem) return toString(foundItem);
             }
             return value;
         },
-        getIdentityColumn: function () {
-            var cols = this.processedColumns.filter(function (item) {
+        getIdentityColumn: function getIdentityColumn() {
+            var cols = this.processedColumns.filter(function(item) {
                 return item.identity == true;
             });
-            if (!cols || cols.length == 0)
-                return null;
-            else
-                return cols[0];
+            if (!cols || cols.length == 0) return null;
+            else return cols[0];
         },
-        getGroupedRows: function (group) {
+        getGroupedRows: function getGroupedRows(group) {
             var _self = this;
 
             /*Be careful, value:null means show all items in datasource, by default*/
             if (!group || group.field == null) return this.processedRows;
 
-            if (this.processedRows.length > 0 && !this.processedRows[0].hasOwnProperty(group.field))
-                this.warn('Datasource does not have field [' + group.field + '] that represent in groups');
+            if (this.processedRows.length > 0 && !this.processedRows[0].hasOwnProperty(group.field)) this.warn('Datasource does not have field [' + group.field + '] that represent in groups');
 
             /*Be careful, value:undefined means show all other items in datasource that not included in groups*/
-            if (group && group.value == undefined && this.processedGroups.length > 1)
-                return this.processedRows.filter(function (item) {
-                    var _item = item;
-                    var _inGroup = false;
-                    _self.processedGroups.forEach(function (g) {
-                        if (!_inGroup && g.value !== undefined) //not current undefined
-                            _inGroup = _item[g.field] == g.value;
-                    });
-                    return !_inGroup;
+            if (group && group.value == undefined && this.processedGroups.length > 1) return this.processedRows.filter(function(item) {
+                var _item = item;
+                var _inGroup = false;
+                _self.processedGroups.forEach(function(g) {
+                    if (!_inGroup && g.value !== undefined) //not current undefined
+                        _inGroup = _item[g.field] == g.value;
                 });
+                return !_inGroup;
+            });
 
-            return this.processedRows.filter(function (item) {
+            return this.processedRows.filter(function(item) {
                 return item[group.field] == group.value;
             });
         },
-        onCellUpdated: function (arg) {
+        onCellUpdated: function onCellUpdated(arg) {
 
             function getColumnByField(columns, field) {
-                return columns.filter(function (item) {
+                return columns.filter(function(item) {
                     return item.field == field;
                 })[0];
             };
@@ -507,7 +485,7 @@ Vue.component('cmp-table', {
             var rowKey = arg[1];
             var value = this.getDataFormattedValue(arg[2], getColumnByField(this.processedColumns, colKey));
 
-            var elementPos = this.rows.findIndex(function (x) {
+            var elementPos = this.rows.findIndex(function(x) {
                 return x[col.field] == rowKey;
             });
             var element = this.rows[elementPos];
@@ -515,7 +493,7 @@ Vue.component('cmp-table', {
             this.$set(this.rows, elementPos, element);
             this.$emit('cmp-table-cell-updated', [colKey, rowKey, value]);
         },
-        sortBy: function (column) {
+        sortBy: function sortBy(column) {
             if (column.sortable) {
                 this.sortKey = column.field;
                 this.sortOrder = this.sortOrder * -1;
@@ -523,60 +501,58 @@ Vue.component('cmp-table', {
         }
     },
     computed: {
-        processedRows: function (group) {
+        processedRows: function processedRows(group) {
             var _self = this;
             var sortKey = this.sortKey;
             var order = this.sortOrder || 1;
-            var filterKey = this.filterKey && this.filterKey.toLowerCase()
+            var filterKey = this.filterKey && this.filterKey.toLowerCase();
             var data = this.rows;
 
             if (filterKey) {
-                var filterableCols = this.processedColumns.filter(function (item) {
+                var filterableCols = this.processedColumns.filter(function(item) {
                     return item.filterable == true;
                 });
-                if (filterableCols && filterableCols.length > 0)
-                    data = data.filter(function (row) {
-                        return filterableCols.some(function (c) {
-                            return String(_self.getPropertyFormattedValue(row, c)).toLowerCase().indexOf(filterKey) > -1
-                        });
+                if (filterableCols && filterableCols.length > 0) data = data.filter(function(row) {
+                    return filterableCols.some(function(c) {
+                        return String(_self.getPropertyFormattedValue(row, c)).toLowerCase().indexOf(filterKey) > -1;
                     });
-                else
-                    this.warn('You are trying to filter but there are no columns that support filters [use filterable:true]');
+                });
+                else this.warn('You are trying to filter but there are no columns that support filters [use filterable:true]');
             }
 
             if (sortKey) {
-                data = data.slice().sort(function (a, b) {
-                    a = a[sortKey]
-                    b = b[sortKey]
-                    return (a === b ? 0 : a > b ? 1 : -1) * order
-                })
+                data = data.slice().sort(function(a, b) {
+                    a = a[sortKey];
+                    b = b[sortKey];
+                    return (a === b ? 0 : a > b ? 1 : -1) * order;
+                });
             }
 
             return data;
         },
-        processedGroups: function () {
+        processedGroups: function processedGroups() {
             return this.groups;
         },
-        processedColumns: function () {
+        processedColumns: function processedColumns() {
 
             var result = [];
-            this.columns.forEach(function (c, i) {
+            this.columns.forEach(function(c, i) {
                 var obj = {
-                    field: (c.field === undefined) ? '' : c.field,
-                    label: (c.label === undefined) ? '' : c.label,
-                    identity: (c.identity === undefined) ? false : c.identity,
-                    hidden: (c.hidden === undefined) ? false : c.hidden,
-                    type: (c.type === undefined) ? 'text' : c.type,
-                    readonly: (c.readonly === undefined) ? false : c.readonly,
-                    thclass: (c.thclass === undefined) ? '' : c.thclass,
-                    tdclass: (c.tdclass === undefined) ? '' : c.tdclass,
-                    width: (c.width === undefined) ? 'auto' : c.width,
-                    sortable: (c.sortable === undefined) ? false : c.sortable,
-                    filterable: (c.filterable === undefined) ? false : c.filterable,
+                    field: c.field === undefined ? '' : c.field,
+                    label: c.label === undefined ? '' : c.label,
+                    identity: c.identity === undefined ? false : c.identity,
+                    hidden: c.hidden === undefined ? false : c.hidden,
+                    type: c.type === undefined ? 'text' : c.type,
+                    readonly: c.readonly === undefined ? false : c.readonly,
+                    thclass: c.thclass === undefined ? '' : c.thclass,
+                    tdclass: c.tdclass === undefined ? '' : c.tdclass,
+                    width: c.width === undefined ? 'auto' : c.width,
+                    sortable: c.sortable === undefined ? false : c.sortable,
+                    filterable: c.filterable === undefined ? false : c.filterable,
                     control: {
-                        datatype: (c.type === undefined) ? 'text' : c.type,
-                        type: (c.control === undefined) || (c.control.type === undefined) ? "textbox" : c.control.type,
-                        source: (c.control === undefined) || (c.control.source === undefined) ? [] : c.control.source,
+                        datatype: c.type === undefined ? 'text' : c.type,
+                        type: c.control === undefined || c.control.type === undefined ? "textbox" : c.control.type,
+                        source: c.control === undefined || c.control.source === undefined ? [] : c.control.source
                     }
                 };
                 result.push(obj);
@@ -585,4 +561,4 @@ Vue.component('cmp-table', {
             return result;
         }
     }
-})
+});
