@@ -7,7 +7,7 @@ Vue.component('cmp-table-textbox', {
         v-bind:value="value" \
 		v-on:keypress="isValidChar($event)" \
 		v-on:keyup="isValidValue($event)" \
-        v-on:input="updateValue($event.target.value)">\
+        v-on:blur="updateValue($event.target.value)">\
     </input>',
     props: {
         value: {
@@ -41,7 +41,7 @@ Vue.component('cmp-table-textbox', {
         isValidValue: function isValidValue(evt) {
             switch (this.control.datatype) {
                 case 'decimal':
-                    this.$refs.input.value = this.$refs.input.value.replace(/[^0-9\.]/g, '');
+                    this.$refs.input.value = this.$refs.input.value.replace(/[^0-9\.-]/g, '');
                     break;
                 case 'number':
                     this.$refs.input.value = this.$refs.input.value.replace(/[^\d].+/, '');
@@ -54,12 +54,12 @@ Vue.component('cmp-table-textbox', {
 
             switch (this.control.datatype) {
                 case 'decimal':
-                    if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) && (charCode != 46 || this.$refs.input.value.indexOf('.') != -1) && (charCode < 48 || charCode > 57)) {
+                    if (charCode != 45 && charCode != 46 && (charCode < 48 || charCode > 57)) {
                         evt.preventDefault();
                     }
                     break;
                 case 'number':
-                    if ((charCode != 45 || this.$refs.input.value.indexOf('-') != -1) && (charCode < 48 || charCode > 57)) {
+                    if (charCode != 45 && (charCode < 48 || charCode > 57)) {
                         evt.preventDefault();
                     }
                     break;
@@ -258,16 +258,18 @@ Vue.component('cmp-table', {
                 </div>\
                 <table ref="table" v-bind:class="styleClass">\
                 <thead>\
-                  <tr>\
-                     <th v-if="lineNumbers.show" class="line-numbers"></th>\
-                     <th v-for="(column, index) in processedColumns"\
-                              v-bind:class="[{ active: column.sortable && sortKey == column.field } , {sortable : column.sortable}, getCssStyle(column, \'th\')] "\
-                              v-bind:style="{width: column.width ? column.width : \'auto\'}"\
-                              v-if="!column.hidden"\
-							  v-on:click="sortBy(column)">{{column.label}}<span v-if="column.sortable && sortKey == column.field" class="arrow" v-bind:class="sortOrder > 0 ? \'asc\' : \'dsc\'"></span>\
-                     </th>\
-                     <slot name="table-th-add"></slot>\
-                   </tr>\
+                <slot name="table-header" v-bind:columns="processedColumns">\
+                    <tr>\
+                        <th v-if="lineNumbers.show" class="line-numbers"></th>\
+                            <th v-for="(column, index) in processedColumns"\
+                                    v-bind:class="[{ active: column.sortable && sortKey == column.field } , {sortable : column.sortable}, getCssStyle(column, \'th\')] "\
+                                    v-bind:style="{width: column.width ? column.width : \'auto\'}"\
+                                    v-if="!column.hidden"\
+                                    v-on:click="sortBy(column)">{{column.label}}<span v-if="column.sortable && sortKey == column.field" class="arrow" v-bind:class="sortOrder > 0 ? \'asc\' : \'dsc\'"></span>\
+                            </th>\
+                        <slot name="table-th-add"></slot>\
+                    </tr>\
+                   </slot>\
                 </thead>\
                 <tbody>\
 				<template v-for="(group, gindex) in processedGroups">\
@@ -276,7 +278,7 @@ Vue.component('cmp-table', {
 					</template>\
 					<template v-for="(row, rindex) in getGroupedRows(group)">\
 						  <tr>\
-							 <th v-if="lineNumbers.show" class="line-numbers">{{ getLineNumber(gindex,rindex) }}</th>\
+							 <td v-if="lineNumbers.show" class="line-numbers">{{ getLineNumber(gindex,rindex) }}</td>\
 							 <slot name="table-row" v-bind:row="row" v-bind:rowindex="rindex">\
 							 <td v-for="(column, cindex) in processedColumns" v-bind:class="getCssStyle(column, \'td\')" v-if="!column.hidden">\
 								<slot v-bind:name="\'column-\' + String(column.field)"\
@@ -390,8 +392,9 @@ Vue.component('cmp-table', {
             }
 
             function formatNumber(v) {
-                // convert to number
-                return Number(v);
+                // convert to number         
+                var n = Number(v);
+                return isNaN(n) ? null : n;
             }
             if (value === undefined || value === '') return null;
 
@@ -450,7 +453,7 @@ Vue.component('cmp-table', {
             else return cols[0];
         },
         getGroupedRows: function getGroupedRows(group) {
-            var _self = this;
+            var self = this;
 
             /*Be careful, value:null means show all items in datasource, by default*/
             if (!group || group.field == null) return this.processedRows;
@@ -461,7 +464,7 @@ Vue.component('cmp-table', {
             if (group && group.value == undefined && this.processedGroups.length > 1) return this.processedRows.filter(function(item) {
                 var _item = item;
                 var _inGroup = false;
-                _self.processedGroups.forEach(function(g) {
+                self.processedGroups.forEach(function(g) {
                     if (!_inGroup && g.value !== undefined) //not current undefined
                         _inGroup = _item[g.field] == g.value;
                 });
@@ -502,7 +505,7 @@ Vue.component('cmp-table', {
     },
     computed: {
         processedRows: function processedRows(group) {
-            var _self = this;
+            var self = this;
             var sortKey = this.sortKey;
             var order = this.sortOrder || 1;
             var filterKey = this.filterKey && this.filterKey.toLowerCase();
@@ -514,7 +517,7 @@ Vue.component('cmp-table', {
                 });
                 if (filterableCols && filterableCols.length > 0) data = data.filter(function(row) {
                     return filterableCols.some(function(c) {
-                        return String(_self.getPropertyFormattedValue(row, c)).toLowerCase().indexOf(filterKey) > -1;
+                        return String(self.getPropertyFormattedValue(row, c)).toLowerCase().indexOf(filterKey) > -1;
                     });
                 });
                 else this.warn('You are trying to filter but there are no columns that support filters [use filterable:true]');
